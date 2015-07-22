@@ -1,4 +1,5 @@
 # from https://github.com/dockerfile/java/blob/master/oracle-java8/Dockerfile
+# from https://github.com/nacyot/elasticsearch
 # The MIT License (MIT)
 # Copyright (c) Dockerfile Project
 #
@@ -27,7 +28,7 @@ WORKDIR /data
 
 # Define commonly used JAVA_HOME variable
 ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
-ENV ES_PKG_NAME elasticsearch-1.6.0
+ENV ES_PKG_NAME elasticsearch-1.7.0
 
 RUN \
   apt-get update &&\
@@ -36,11 +37,12 @@ RUN \
 # Install Elasticsearch.
 RUN \
   cd / && \
-  wget https://download.elasticsearch.org/elasticsearch/elasticsearch/$ES_PKG_NAME.tar.gz && \
+  wget https://download.elastic.co/elasticsearch/elasticsearch/$ES_PKG_NAME.tar.gz && \
   tar xvzf $ES_PKG_NAME.tar.gz && \
   rm -f $ES_PKG_NAME.tar.gz && \
   mv /$ES_PKG_NAME /elasticsearch
 
+# Install mecab-ko
 RUN \
   cd /opt &&\
   wget https://bitbucket.org/eunjeon/mecab-ko/downloads/mecab-0.996-ko-0.9.2.tar.gz &&\
@@ -54,9 +56,9 @@ RUN \
 
 RUN \
   cd /opt &&\
-  wget https://bitbucket.org/eunjeon/mecab-ko-dic/downloads/mecab-ko-dic-1.6.1-20140814.tar.gz &&\
-  tar xvf mecab-ko-dic-1.6.1-20140814.tar.gz &&\
-  cd /opt/mecab-ko-dic-1.6.1-20140814 &&\
+  wget https://bitbucket.org/eunjeon/mecab-ko-dic/downloads/mecab-ko-dic-2.0.1-20150707.tar.gz &&\
+  tar xvf mecab-ko-dic-2.0.1-20150707.tar.gz &&\
+  cd /opt/mecab-ko-dic-2.0.1-20150707 &&\
   ./autogen.sh &&\
   ./configure &&\
   make &&\
@@ -79,13 +81,11 @@ VOLUME ["/data"]
 # Mount elasticsearch.yml config
 ADD config/elasticsearch.yml /elasticsearch/config/elasticsearch.yml
 
+# Install mecab-ko-analyzer(elasticsearch plugin)
 RUN /elasticsearch/bin/plugin --install analysis-mecab-ko-0.17.0 --url https://bitbucket.org/eunjeon/mecab-ko-lucene-analyzer/downloads/elasticsearch-analysis-mecab-ko-0.17.0.zip
 
-# Define working directory.
-WORKDIR /data
-
 # Define default command.
-CMD /elasticsearch/bin/elasticsearch -Djava.library.path=/usr/local/lib
+ENTRYPOINT ["/elasticsearch/bin/elasticsearch", "-Djava.library.path=/usr/local/lib"]
 
 # Expose ports.
 #   - 9200: HTTP
