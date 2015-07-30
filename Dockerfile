@@ -84,8 +84,10 @@ ADD config/elasticsearch.yml /elasticsearch/config/elasticsearch.yml
 # Install mecab-ko-analyzer(elasticsearch plugin)
 RUN /elasticsearch/bin/plugin --install analysis-mecab-ko-0.17.0 --url https://bitbucket.org/eunjeon/mecab-ko-lucene-analyzer/downloads/elasticsearch-analysis-mecab-ko-0.17.0.zip
 
-# Install head(elasticsearch plugin)
+# Install elasticsearch plugin
 RUN /elasticsearch/bin/plugin --install mobz/elasticsearch-head
+RUN /elasticsearch/bin/plugin --install lmenezes/elasticsearch-kopf/v1.5.6
+RUN /elasticsearch/bin/plugin --install polyfractal/elasticsearch-inquisitor
 
 # Define default command.
 ENTRYPOINT ["/elasticsearch/bin/elasticsearch", "-Djava.library.path=/usr/local/lib"]

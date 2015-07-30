@@ -19,3 +19,9 @@
     ```
 
 After few seconds, open `http://<host>:9200` to see the result.
+
+### Plugins
+
+  - /_plugin/head
+  - /_plugin/inquisitor
+  - /_plugin/kopf
