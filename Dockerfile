@@ -64,6 +64,12 @@ RUN \
   make &&\
   make install
 
+# Install user dic
+ADD https://raw.githubusercontent.com/n42corp/search-ko-dic/master/servicecustom.csv /opt/mecab-ko-dic-2.0.1-20150707/userdic/servicecustom.csv
+RUN cd /opt/mecab-ko-dic-2.0.1-20150707 &&\
+  tools/add-userdic.sh &&\
+  make install
+
 ENV JAVA_TOOL_OPTIONS -Dfile.encoding=UTF8
 
 RUN \
@@ -79,10 +85,11 @@ RUN \
 VOLUME ["/data"]
 
 # Mount elasticsearch.yml config
-ADD config/elasticsearch.yml /elasticsearch/config/elasticsearch.yml
+COPY config/elasticsearch.yml /elasticsearch/config/elasticsearch.yml
 
 # Install mecab-ko-analyzer(elasticsearch plugin)
 RUN /elasticsearch/bin/plugin --install analysis-mecab-ko-0.17.0 --url https://bitbucket.org/eunjeon/mecab-ko-lucene-analyzer/downloads/elasticsearch-analysis-mecab-ko-0.17.0.zip
+
 
 # Install elasticsearch plugin
 RUN /elasticsearch/bin/plugin --install mobz/elasticsearch-head
