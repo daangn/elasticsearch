@@ -65,13 +65,13 @@ RUN \
   make install
 
 # Install user dic
-ADD https://raw.githubusercontent.com/n42corp/search-ko-dic/master/servicecustom.csv /opt/mecab-ko-dic-2.0.1-20150707/user-dic/servicecustom.csv
-RUN cd /opt/mecab-ko-dic-2.0.1-20150707 &&\
+ONBUILD COPY servicecustom.csv /opt/mecab-ko-dic-2.0.1-20150707/user-dic/servicecustom.csv
+ONBUILD RUN cd /opt/mecab-ko-dic-2.0.1-20150707 &&\
   tools/add-userdic.sh &&\
   make install
 
 # Add synonym
-ADD https://raw.githubusercontent.com/n42corp/search-ko-dic/master/synonym.txt /elasticsearch/config/synonym.txt
+ONBUILD COPY synonym.txt /elasticsearch/config/synonym.txt
 
 ENV JAVA_TOOL_OPTIONS -Dfile.encoding=UTF8
 
@@ -97,6 +97,7 @@ RUN /elasticsearch/bin/plugin --install analysis-mecab-ko-0.17.0 --url https://b
 RUN /elasticsearch/bin/plugin --install mobz/elasticsearch-head
 RUN /elasticsearch/bin/plugin --install lmenezes/elasticsearch-kopf/v1.5.6
 RUN /elasticsearch/bin/plugin --install polyfractal/elasticsearch-inquisitor
+RUN /elasticsearch/bin/plugin --install elasticsearch/elasticsearch-cloud-aws/2.7.1
 
 # Define default command.
 ENTRYPOINT ["/elasticsearch/bin/elasticsearch", "-Djava.library.path=/usr/local/lib"]

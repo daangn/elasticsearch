@@ -25,6 +25,25 @@ After few seconds, open `http://<host>:9200` to see the result.
   - /_plugin/head
   - /_plugin/inquisitor
   - /_plugin/kopf
+  - elasticsearch-cloud-aws
+
+### Build with custom dic, synonym
+
+```
+$ touch Dockerfile.your
+$ cat 'FROM n42corp/elasticsearch' > Dockerfile.your
+$ touch servicecustom.csv # fill your custom dic
+$ touch synonym.txt # fill your custom synonym
+$ docker build -t your/imagename -f Dockerfile.your .
+```
+
+#### N42 custom dic, synonym
+
+```
+$ curl -O https://raw.githubusercontent.com/n42corp/search-ko-dic/master/servicecustom.csv
+$ curl -O https://raw.githubusercontent.com/n42corp/search-ko-dic/master/synonym.txt
+$ docker build -t n42corp/elasticsearch-n42 -f Dockerfile.n42 .
+```
 
 ### docker-compose
 
