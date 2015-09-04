@@ -25,3 +25,10 @@ After few seconds, open `http://<host>:9200` to see the result.
   - /_plugin/head
   - /_plugin/inquisitor
   - /_plugin/kopf
+
+### docker-compose
+
+```
+$ docker-compose up -d
+$ curl -XGET http://username:password@192.168.99.100/
+```
