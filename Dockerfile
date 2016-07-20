@@ -28,7 +28,7 @@ WORKDIR /data
 
 # Define commonly used JAVA_HOME variable
 ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
-ENV ES_PKG_NAME elasticsearch-1.7.0
+ENV ES_PKG_NAME elasticsearch-1.7.5
 
 RUN \
   apt-get update &&\
@@ -56,17 +56,17 @@ RUN \
 
 RUN \
   cd /opt &&\
-  wget https://bitbucket.org/eunjeon/mecab-ko-dic/downloads/mecab-ko-dic-2.0.1-20150707.tar.gz &&\
-  tar xvf mecab-ko-dic-2.0.1-20150707.tar.gz &&\
-  cd /opt/mecab-ko-dic-2.0.1-20150707 &&\
+  wget https://bitbucket.org/eunjeon/mecab-ko-dic/downloads/mecab-ko-dic-2.0.1-20150920.tar.gz &&\
+  tar xvf mecab-ko-dic-2.0.1-20150920.tar.gz &&\
+  cd /opt/mecab-ko-dic-2.0.1-20150920 &&\
   ./autogen.sh &&\
   ./configure &&\
   make &&\
   make install
 
 # Install user dic
-ONBUILD COPY servicecustom.csv /opt/mecab-ko-dic-2.0.1-20150707/user-dic/servicecustom.csv
-ONBUILD RUN cd /opt/mecab-ko-dic-2.0.1-20150707 &&\
+ONBUILD COPY servicecustom.csv /opt/mecab-ko-dic-2.0.1-20150920/user-dic/servicecustom.csv
+ONBUILD RUN cd /opt/mecab-ko-dic-2.0.1-20150920 &&\
   tools/add-userdic.sh &&\
   make install
 
@@ -95,7 +95,7 @@ RUN /elasticsearch/bin/plugin --install analysis-mecab-ko-0.17.0 --url https://b
 
 # Install elasticsearch plugin
 RUN /elasticsearch/bin/plugin --install mobz/elasticsearch-head
-RUN /elasticsearch/bin/plugin --install lmenezes/elasticsearch-kopf/v1.5.6
+RUN /elasticsearch/bin/plugin --install lmenezes/elasticsearch-kopf/v1.6.1
 RUN /elasticsearch/bin/plugin --install polyfractal/elasticsearch-inquisitor
 RUN /elasticsearch/bin/plugin --install elasticsearch/elasticsearch-cloud-aws/2.7.1
 
