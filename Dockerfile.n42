@@ -1,1 +1,1 @@
-FROM n42corp/elasticsearch:20160720
+FROM n42corp/elasticsearch:2.3.1.0
