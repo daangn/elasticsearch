@@ -32,7 +32,11 @@ docker run -d --name drakejin-elasticsearch -p 9200:9200 9300:9300 daangn/elasti
 # Release note
 
 ### 2.3.1
-- daangn/elasticsearch:2.3.1
-- daangn/elasticsearch:2.3.1-mecab
 - elastic search의 버전은 `2.3.1`
-- OS는 `debian`, Docker 의 base image는 `openjdk:8-jdk`을 사용하였다.
+- OS는 `debian`, Docker 의 base image는 `openjdk:8-jdk`을 사용
+- **생성된 이미지**: `daangn/elasticsearch:2.3.1`, `daangn/elasticsearch:2.3.1-mecab`
+
+### 6.7.1
+- elastic search의 버전은 `6.7.1`
+- OS는 `debian`, Docker 의 base image는 `openjdk:8-jdk`을 사용
+- **생성된 이미지**: `daangn/elasticsearch:6.7.1`, `daangn/elasticsearch:6.7.1-mecab`, `daangn/elasticsearch:6.7.1-official`
